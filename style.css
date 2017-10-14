@@ -11,3 +11,14 @@
 	position: absolute;
 
 }
+#logo{
+	font-style: italic;
+	font-family: sans-serif;
+	font-size: bold;
+}
+#tablebody{
+	font-size: 20px;
+}
+#tablehead{
+	font-size: 25px;
+}
