@@ -1,0 +1,23 @@
+{
+  "name": "darkpovogang",
+  "version": "1.0.0",
+  "description": "![UniRoom](https://github.com/stebranchi/DarkPovoGang/blob/master/Loghi/logo.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stebranchi/DarkPovoGang.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stebranchi/DarkPovoGang/issues"
+  },
+  "homepage": "https://github.com/stebranchi/DarkPovoGang#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "path": "^0.12.7"
+  }
+}
