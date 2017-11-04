@@ -27,7 +27,7 @@ app.get('/povo', (req, res) => {
         if(!error && response.statusCode == 200) {
             let data = JSON.parse(body);
             let events = data.events;
-            let rooms = getRoomList(events, currentTimestamp); 
+            let rooms = getRoomList(events); 
             rooms = cleanSchedule(rooms);     
             rooms = getFreeRooms(rooms, currentTimestamp);
             rooms = cleanPastSchedule(rooms, currentTimestamp);
@@ -37,7 +37,7 @@ app.get('/povo', (req, res) => {
 });
  
 
-function getRoomList(events, currentTimestamp) {
+function getRoomList(events) {
     let rooms = [];
     for(let i = 0; i < events.length; i++) {
         let room = {room: events[i].room,
@@ -64,7 +64,7 @@ function getRoomList(events, currentTimestamp) {
                 timestamp_day: events[i].timestamp_day,
                 timestamp_from: events[i].timestamp_from,
                 timestamp_to: events[i].timestamp_to
-            }
+            };
             rooms[id].orario.push(newOrario);
             id = -1;
         } else {
@@ -104,6 +104,7 @@ function getFreeRooms(rooms, timeStamp) {
     return rooms;
 }
 
+//Delete those schedules that are in the past.
 function cleanPastSchedule(rooms, timestamp) {
     for(let i = 0; i < rooms.length; i++) {
         for(let j = 0; j < rooms[i].orario.length; j++) {            
@@ -118,6 +119,67 @@ function cleanPastSchedule(rooms, timestamp) {
         }
     }
     return rooms;
+}
+
+
+app.get('/schedule/*/*', (req, res) => {
+    let now = new Date();
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear();
+
+    let originalUrl = req.originalUrl;
+    let arrayUrl = originalUrl.split('/');
+    let sede = arrayUrl[2];
+    let roomId = arrayUrl[3];
+
+    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
+    //let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=8-11-2017";
+    request(url, function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+            let data = JSON.parse(body);
+            let events = data.events;
+            let room = getRoomSchedule(events, roomId);
+            
+            res.json(room); //Get the list of rooms with events that day and the hours in which they are busy.
+        }
+    });
+});
+
+
+function getRoomSchedule(events, roomId) {
+    let ris;    
+    for(let i = 0; i < events.length; i++) {
+        if(events[i].room == roomId) {
+            if(ris == null) {
+                ris = { room: events[i].room,
+                        NomeAula: events[i].NomeAula,            
+                        orario: [{
+                            nomeMateria : events[i].name,
+                            nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
+                            from: events[i].from,
+                            to: events[i].to,
+                            timestamp_day: events[i].timestamp_day,
+                            timestamp_from: events[i].timestamp_from,
+                            timestamp_to: events[i].timestamp_to
+                        }]
+                    };
+            } else {
+                let newOrario = {
+                    nomeMateria : events[i].name,
+                    nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
+                    from: events[i].from,
+                    to: events[i].to,
+                    timestamp_day: events[i].timestamp_day,
+                    timestamp_from: events[i].timestamp_from,
+                    timestamp_to: events[i].timestamp_to
+                };
+                ris.orario.push(newOrario);
+            }
+        }
+    }
+
+    return ris == null ? "Nessuna lezione oggi in questa aula" : ris;
 }
 
 app.listen(port);
