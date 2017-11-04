@@ -20,8 +20,8 @@ app.get('/povo', (req, res) => {
     let currentTimestamp = now.getTime() / 1000;
 
     //Ask for info rooms for the current day.
-    //let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=" + day + "-" + month + "-" + year;
-    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=2-11-2017";
+    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=" + day + "-" + month + "-" + year;
+    //let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=8-11-2017";
     //Chiamata all'API di easyroom
     request(url, function(error, response, body) {
         if(!error && response.statusCode == 200) {
@@ -30,6 +30,7 @@ app.get('/povo', (req, res) => {
             let rooms = getRoomList(events, currentTimestamp); 
             rooms = cleanSchedule(rooms);     
             rooms = getFreeRooms(rooms, currentTimestamp);
+            rooms = cleanPastSchedule(rooms, currentTimestamp);
             res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
         }
     });
@@ -88,24 +89,35 @@ function cleanSchedule(rooms) {
 }
 
 function getFreeRooms(rooms, timeStamp) {
-    let ris = [];
     let closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
     for(let i = 0; i < rooms.length; i++) {
         //Check if the current time is between 00:00 and 20:00
-        if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {
-            let aggiungi = true;
+        if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {      
             for(let j = 0; j < rooms[i].orario.length; j++) {
-                
-                if(rooms[i].orario[j].timestamp_from < timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {   
-                    aggiungi = false;
-                }
-                if(aggiungi) {
-                    ris.push(rooms[i]);
+                if(rooms[i].orario[j].timestamp_from < timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
+                    rooms[i].orario.splice(j, 1);
+                    j--;
                 }
             }
         }
     }
-    return ris;
+    return rooms;
+}
+
+function cleanPastSchedule(rooms, timestamp) {
+    for(let i = 0; i < rooms.length; i++) {
+        for(let j = 0; j < rooms[i].orario.length; j++) {            
+            if(timestamp > rooms[i].orario[j].timestamp_from) {
+                rooms[i].orario.splice(j,1);
+                j --; 
+            }   
+        }
+        if(rooms[i].orario.length == 0) {
+            rooms.splice(i, 1);
+            i--;
+        }
+    }
+    return rooms;
 }
 
 app.listen(port);
