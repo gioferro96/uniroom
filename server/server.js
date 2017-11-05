@@ -89,7 +89,9 @@ function cleanSchedule(rooms) {
 }
 
 function getFreeRooms(rooms, timeStamp) {
-    let closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
+    if(rooms.length > 0) {
+        let closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
+    } 
     for(let i = 0; i < rooms.length; i++) {
         //Check if the current time is between 00:00 and 20:00
         if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {      
