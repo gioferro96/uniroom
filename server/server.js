@@ -12,8 +12,8 @@ var department_id =[("E0101","economia"),
                     ("E0201","giurisprudenza"),
                     ("E0201","giuri")];
 
-function inArray(var sede){
-    for (int i = 0; i < department_id.length; i++)
+function inArray(sede){
+    for (let i = 0; i < department_id.length; i++)
     {
         if(sede == department_id[i][0])
             return true;
