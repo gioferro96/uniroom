@@ -4,22 +4,23 @@ var request = require('request');
 var cors = require('cors');
 
 var port = process.env.PORT || 8080;
-var department_id =[("E0101","economia"),
-                    ("E0801","lettere"),
-                    ("E0801","filosofia"),
-                    ("E0301","mesiano"),
-                    ("E0301","ingegneria"),
-                    ("E0201","giurisprudenza"),
-                    ("E0601", "sociologia"),
-                    ("E0705", "scienze cognitive"),
-                    ("E0503", "povo")];
+var department_id =[("economia","E0101"),
+                    ("lettere","E0801"),
+                    ("filosofia","E0801"),
+                    ("mesiano","E0301"),
+                    ("ingegneria","E0301"),
+                    ("giurisprudenza","E0201"),
+                    ("sociologia","E0601"),
+                    ("scienze cognitive","E0705"),
+                    ("povo","E0503")];
 
 function inArray(sede){
     for (let i = 0; i < department_id.length; i++)
     {
-        if(sede == department_id[i][0])
+        if(sede === department_id[i])
             return true;
     }
+    return false;
 }
 
 
@@ -70,6 +71,7 @@ app.post('/:sede', (req,res) => {
     }
     else
     {
+        console.log("Error: invalid department id")
         //error page -> sede not valid
     }  
     
