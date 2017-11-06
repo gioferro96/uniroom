@@ -10,7 +10,9 @@ var department_id =[("E0101","economia"),
                     ("E0301","mesiano"),
                     ("E0301","ingegneria"),
                     ("E0201","giurisprudenza"),
-                    ("E0201","giuri")];
+                    ("E0601", "sociologia"),
+                    ("E0705", "scienze cognitive"),
+                    ("E0503", "povo")];
 
 function inArray(sede){
     for (let i = 0; i < department_id.length; i++)
