@@ -32,7 +32,7 @@ app.get('/', function(req, res){
 });
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
-app.post('/:sede', (req,res) => {
+app.get('/:sede', (req,res) => {
     let url;
     let sede;
     if (inArray(req.params.sede))
@@ -63,8 +63,8 @@ app.post('/:sede', (req,res) => {
                 let events = data.events;
                 let rooms = getRoomList(events); 
                 rooms = cleanSchedule(rooms);    
-                rooms = getFreeRooms(rooms, currentTimestamp);
-                rooms = cleanPastSchedule(rooms, currentTimestamp);
+                //rooms = getFreeRooms(rooms, currentTimestamp);
+                //rooms = cleanPastSchedule(rooms, currentTimestamp);
                 res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
             }
         });
@@ -148,6 +148,7 @@ function cleanSchedule(rooms) {
                     rooms[i].orario[j].to = rooms[i].orario[j + 1].to;
                     rooms[i].orario[j].timestamp_to = rooms[i].orario[j + 1].timestamp_to;
                     rooms[i].orario.splice(j + 1, 1);
+                    j--;
                 }
         }
     }
