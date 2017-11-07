@@ -63,8 +63,8 @@ app.get('/:sede', (req,res) => {
                 let events = data.events;
                 let rooms = getRoomList(events); 
                 rooms = cleanSchedule(rooms);    
-                //rooms = getFreeRooms(rooms, currentTimestamp);
-                //rooms = cleanPastSchedule(rooms, currentTimestamp);
+                rooms = getFreeRooms(rooms, 1510056894);
+                rooms = cleanPastSchedule(rooms, 1510056894);
                 res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
             }
         });
@@ -78,30 +78,6 @@ app.get('/:sede', (req,res) => {
     
 });
 
-/*app.get('/povo', (req, res) => {
-    let now = new Date();
-    let day = now.getDate();
-    let month = now.getMonth() + 1;
-    let year = now.getFullYear();
-    let currentTimestamp = now.getTime() / 1000;
-
-    //Ask for info rooms for the current day.
-    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=" + day + "-" + month + "-" + year;
-    //let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=E0503&_lang=it&date=8-11-2017";
-    //Chiamata all'API di easyroom
-    request(url, function(error, response, body) {
-        if(!error && response.statusCode == 200) {
-            let data = JSON.parse(body);
-            let events = data.events;
-            let rooms = getRoomList(events); 
-            rooms = cleanSchedule(rooms);     
-            rooms = getFreeRooms(rooms, currentTimestamp);
-            rooms = cleanPastSchedule(rooms, currentTimestamp);
-            res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-        }
-    });
-});*/
- 
 
 function getRoomList(events) {
     let rooms = [];
@@ -168,8 +144,9 @@ function getFreeRooms(rooms, timeStamp) {
         if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {      
             for(let j = 0; j < rooms[i].orario.length; j++) {
                 if(rooms[i].orario[j].timestamp_from < timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
-                    rooms[i].orario.splice(j, 1);
-                    j--;
+                    rooms.splice(i, 1);
+                    i--;
+                    break;
                 }
             }
         }
