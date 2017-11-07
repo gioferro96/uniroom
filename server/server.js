@@ -63,8 +63,8 @@ app.get('/:sede', (req,res) => {
                 let events = data.events;
                 let rooms = getRoomList(events); 
                 rooms = cleanSchedule(rooms);    
-                rooms = getFreeRooms(rooms, 1510056894);
-                rooms = cleanPastSchedule(rooms, 1510056894);
+                rooms = getFreeRooms(rooms, currentTimestamp);
+                rooms = cleanPastSchedule(rooms, currentTimestamp);
                 res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
             }
         });
@@ -162,11 +162,7 @@ function cleanPastSchedule(rooms, timestamp) {
                 rooms[i].orario.splice(j,1);
                 j --; 
             }   
-        }
-        if(rooms[i].orario.length == 0) {
-            rooms.splice(i, 1);
-            i--;
-        }
+        }   
     }
     return rooms;
 }
