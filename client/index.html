@@ -1,90 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 	<title>UniRoom</title>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <link rel="stylesheet" href="/../css/style.css">
 
-    <!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-	<!-- Compiled and minified JavaScript -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	<!-- BOOTSTRAP 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-	<nav>
-		<div class="nav-wrapper">
-			<a href="#" style="padding-left: 2%" class="brand-logo logo" id="logo">UniRoom</a>
-			<ul id="nav-mobile" class="right">
-				<li><a href="http://www.unitn.it">UNITN</a></li>
-				<li><a href="#">Contatti</a></li>
-				<li><a href="#">About Us</a></li>
+	<nav class="light-blue lighten-1" role="navigation">
+		<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">UNIROOM</a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#">About us</a></li>
+				<li><a href="#">Contacts</a></li>
+				<li><a href="#">UNITN</a></li>
+				<li><a href="#">Schedule</a></li>
 			</ul>
+
+
+			<ul id="nav-mobile" class="side-nav">
+				<li><a href="#">Contacts</a></li>
+			</ul>
+			
+			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 		</div>
 	</nav>
-	<div id="container">
-		<form action="http://localhost:8080/E0503?day=08&month=11&year=2017">
-			<div class="mdc-layout-grid my-textarea" id="my-textarea">
-				<h1 class="mdc-typography--display1">Dove stai cercando un'aula libera...</h1>
-				<input type="textarea" style="padding-top: 3%" name="my-textarea" class="mdc-textfield__input" placeholder="Inserisci qui...">
+	<div class="section no-pad-bot" id="index-banner" style="padding-bottom: 150px;">
+		<div class="container">
+			<br><br>
+			<div style="padding-top: 10%">
+				<center>
+					<div class="row center">
+						<form class="col s12">
+							<div class="input-field col s10" style="padding-left: 16%; font-size: 30px">
+								<i onclick="go()" class="red-text material-icons prefix" style="padding-top: 3%">search</i>
+								<input size="25" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" class="validate">
+								<div style="padding-top: 2%">
+									<a class="btn-floating btn-large waves-effect waves-light red" onclick="go()">
+										<i class="material-icons">forward</i>
+									</a>
+									
+								</div>
+								
+							</div>
+						</form>
+					</div>
+				</center>
 			</div>
-			<div class="mdc-layout-grid" id="my-textarea" style="padding-top: 2%">
-			<h3 class="mdc-typography--display1">... oppure scegli tra:</h3>
 			
-			<div class="row">
-				<div class="col s4">
-					<p>
-						<input name="group1" type="radio" id="povo" />
-						<label for="povoa">Povo A</label>
-					</p>
-					<p>
-						<input name="group1" type="radio" id="povo" />
-						<label for="povob">Povo B</label>
-					</p>
-					<p>
-						<input class="group1" name="group1" type="radio" id="povo"  />
-						<label for="povo0">Povo 0</label>
-					</p>
-				</div>
-				<div class="col s4">
-					<p>
-						<input name="group1" type="radio" id="mesiano" />
-						<label for="mesiano">Mesiano</label>
-					</p>
-					<p>
-						<input class="group1" name="group1" type="radio" id="giuri"  />
-						<label for="giuri">Giurisprudenza</label>
-					</p>
-					<p>
-						<input class="group1" name="group1" type="radio" id="scienzacognitive"  />
-						<label for="scicogn">Scienze cognitive</label>
-					</p>
-				</div>
-				<div class="col s4">
-					<p>
-						<input name="group1" type="radio" id="sociologia" />
-						<label for="socio">Sociologia</label>
-					</p>
-					<p>
-						<input name="group1" type="radio" id="economia" />
-						<label for="eco">Economia</label>
-					</p>
-					<p>
-						<input class="group1" name="group1" type="radio" id="lettere"  />
-						<label for="lettere">Lettere</label>
-					</p>
-				</div>
-			</div>		
-		</form>
-		<div style="padding-top: 20px; text-align: center;">
-			<a href="result.html"><button type="button" class="mdc-button mdc-button--raised mdc-button--primary">Cerca</button></a>
+			<div id="table_div" style="visibility: hidden;">
+				<table class="striped" id="command_table">
+					<thead>
+						<tr>
+							<th>Input</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>help</td>
+							<td>List all the possible command to use</td>
+						</tr>
+						<tr>
+							<td>povo</td>
+							<td>List all the free rooms at Povo</td>
+						</tr>
+						<tr>
+							<td>giuri</td>
+							<td>List all the free rooms at Giurisprudenza</td>
+						</tr>
+						<tr>
+							<td>socio</td>
+							<td>List all the free rooms at Sociologia</td>
+						</tr>
+						<tr>
+							<td>economia</td>
+							<td>List all the free rooms at economia</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
 		</div>
 	</div>
-</div>
+
 	
-    
+
+	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px;">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">Company Bio</h5>
+					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Settings</h5>
+					<ul>
+						<li><a class="white-text" href="#!">Link 1</a></li>
+						<li><a class="white-text" href="#!">Link 2</a></li>
+					</ul>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Connect</h5>
+					<ul>
+						<li><a class="white-text" href="#!">Link 1</a></li>
+						<li><a class="white-text" href="#!">Link 2</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	<!--  Scripts-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="js/materialize.js"></script>
+	<script src="js/init.js"></script>
+	<script type="text/javascript">
+		function showCommand(){
+			console.log("ciaooo");
+			var table = document.getElementById("table_div");
+			table.value = '';
+			table.style.visibility = "visible";
+
+		}
+		function go(){
+			var q = document.getElementById("inserisci").value;
+			console.log(q);
+			if (q === "help")
+			{
+				showCommand();
+			}
+			else
+			{
+				//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
+				var url = "result.html?q="+q;
+				location.href = url;
+			}
+
+			
+
+
+		}
+	</script>
 
 </body>
 </html>

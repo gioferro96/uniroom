@@ -1,104 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Result</title>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <link rel="stylesheet" href="/../css/style.css">
-    <!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<title>UniRoom</title>
 
-	<!-- Compiled and minified JavaScript -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+
+	<!--  Scripts-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="js/materialize.js"></script>
+	
+	<script type="text/javascript">
+		function getQueryVariable(variable) {
+			var query = window.location.search.substring(1);
+			var vars = query.split("&");
+			for (var i=0;i<vars.length;i++) {
+				var pair = vars[i].split("=");
+				if (pair[0] == variable) {
+					return pair[1];
+				}
+			} 
+			alert('Query Variable ' + variable + ' not found');
+		}
+
+	</script>
+
+	<!-- BOOTSTRAP 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-	<nav>
-		<div class="nav-wrapper">
-			<a href="#" style="padding-left: 2%" class="brand-logo logo" id="logo">UniRoom</a>
-			<ul id="nav-mobile" class="right">
-				<li><a href="http://www.unitn.it">UNITN</a></li>
-				<li><a href="sass.html">Contatti</a></li>
-				<li><a href="badges.html">About Us</a></li>
-			</ul>
+	<nav class="light-blue lighten-1" role="navigation">
+		<div class="nav-wrapper container">
+			<div class="row">
+				<div class="col s3">
+					<a id="logo-container" href="#" class="brand-logo">UNIROOM</a>
+				</div>
+				<div class="col s4 offset-s3">
+					<form>
+						<div class="input-field">
+							<i onclick="go()" class="red-text material-icons prefix">search</i>
+							<input size="15" style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" class="validate">
+						</div>
+					</form>
+				</div>
+				<div class="col s5">
+					<ul class="right hide-on-med-and-down">
+						<li><a href="#">About us</a></li>
+						<li><a href="#">Contacts</a></li>
+						<li><a href="#">UNITN</a></li>
+						<li><a href="#">Schedule</a></li>
+					</ul>
+
+
+					<ul id="nav-mobile" class="side-nav">
+						<li><a href="#">Contacts</a></li>
+					</ul>
+					
+					<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+				</div>
+				
+			</div>
 		</div>
+		
 	</nav>
-	<div class="container" style="padding-top: 3%">
-		<div class="row">
-			<div class="col s4">
-				<h3 class="mdc-typography--display1">Posto: PovoA</h3>
+
+	<div class="container">
+		<center>
+			<h3 id="nome_polo"></h3>
+		</center>
+		
+		<div id="table_div">
+				<table class="striped" id="command_table">
+					<thead>
+						<tr>
+							<th>Aula</th>
+							<th>Libera da</th>
+							<th>Libera fino</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div class="col s4"></div>
-			<div class="right" style="padding-top: 25px">
-				<i>
-					<font color="black">
-						<strong>
-						 	<span id="time"></span>
-						</strong>
-					</font>
-				</i> 
-			</div>
-		</div>
-		<table class="responsive-table centered">
-			<thead id="tablehead">
-				<tr>
-					<th>Aula</th>
-					<th>Libera da</th>
-					<th>Libera fino</th>
-				</tr>
-			</thead>
-			<tbody id="tablebody">
-				<tr>
-					<td><a style="color: #333333" href="a101.html">A101</a></td>
-					<td>13:00</td>
-					<td>16:00</td>
-				</tr>
-				<tr>
-					<td><a style="color: #333333" href="#">A206</a></td>
-					<td>11:00</td>
-					<td>14:00</td>
-				</tr>
-				<tr>
-					<td><a style="color: #333333" href="#">A105</a></td>
-					<td>14:00</td>
-					<td>end</td>
-				</tr>
-				<tr>
-					<td><a style="color: #333333" href="a217.html">A217</a></td>
-					<td>12:00</td>
-					<td>15:00</td>
-				</tr>
-			</tbody>
-		</table>
-		<hr>
-		<div class="row" style="padding-top: 40px">
-			<div class="col s4"></div>
-			<div class="col s4">
-				<img src="mappe/povo1-2.jpeg" alt="mappa povo1-2" style="width: 99%">
-			</div>
-			<div class="col s4"></div>
-		</div>
 	</div>
+
+	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px;">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">Company Bio</h5>
+					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Settings</h5>
+					<ul>
+						<li><a class="white-text" href="#!">Link 1</a></li>
+						<li><a class="white-text" href="#!">Link 2</a></li>
+					</ul>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">Connect</h5>
+					<ul>
+						<li><a class="white-text" href="#!">Link 1</a></li>
+						<li><a class="white-text" href="#!">Link 2</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
 	<script type="text/javascript">
-		function updateClock() 
-		{
-			var now = new Date(), // current date
-			months = ['Gennaio', 'Febbraio', 'Marzo','Aprile','Maggio','Giugno','Lugio','Agosto','Settembre'
-			,'Ottobre','Novembre','Dicembre'];
-			time = now.getHours() + ':' + now.getMinutes();
-
-			
-			date = [now.getDate(), 
-			months[now.getMonth()],
-			now.getFullYear()].join(' ');
-
-			// set the content of the element with the ID time to the formatted string
-			document.getElementById('time').innerHTML = [time , date].join(' - ');
-
-			// call this function again in 1000ms
-			setTimeout(updateClock, 1000);
-		}
-		updateClock();
+		var polo = getQueryVariable("q");
+		document.getElementById("nome_polo").innerHTML = "Aule libere presso: "+polo;
 	</script>
+
 </body>
 </html>
