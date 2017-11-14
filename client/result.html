@@ -9,12 +9,12 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
-	
+	<script type="text/javascript" src="js/myjs.js"></script>
 	<script type="text/javascript">
 		function getQueryVariable(variable) {
 			var query = window.location.search.substring(1);
@@ -29,6 +29,22 @@
 		}
 
 	</script>
+	<script type="text/javascript">
+		//var url = "http://localhost:8080/"+ getPlace();
+		var url = "http://localhost:8080/E0503";
+		$.getJSON(url,function(data){
+			$.each(data, function(key, val){
+				if(val.orario[0])
+				{
+					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>"+val.orario[0].from+"</td><td>"+val.orario[0].to+"</td></tr>");
+				}
+				
+			});
+		});
+
+
+	</script>
+	
 
 	<!-- BOOTSTRAP 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -36,48 +52,49 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-	<nav class="light-blue lighten-1" role="navigation">
-		<div class="nav-wrapper container">
-			<div class="row">
-				<div class="col s3">
-					<a id="logo-container" href="#" class="brand-logo">UNIROOM</a>
-				</div>
-				<div class="col s4 offset-s3">
-					<form>
-						<div class="input-field">
-							<i onclick="go()" class="red-text material-icons prefix">search</i>
-							<input size="15" style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" class="validate">
-						</div>
-					</form>
-				</div>
-				<div class="col s5">
-					<ul class="right hide-on-med-and-down">
-						<li><a href="#">About us</a></li>
-						<li><a href="#">Contacts</a></li>
-						<li><a href="#">UNITN</a></li>
-						<li><a href="#">Schedule</a></li>
-					</ul>
+	<div style="margin-bottom: 150px">
+		<nav class="light-blue lighten-1" role="navigation">
+			<div class="nav-wrapper container">
+				<div class="row">
+					<div class="col s3">
+						<a id="logo-container" href="#" class="brand-logo">UNIROOM</a>
+					</div>
+					<div class="col s4 offset-s3">
+						<form>
+							<div class="input-field">
+								<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
+								<input size="15" style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" class="validate" onkeydown = "enter()" >
+							</div>
+						</form>
+					</div>
+					<div class="col s5">
+						<ul class="right hide-on-med-and-down">
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Contacts</a></li>
+							<li><a href="#">UNITN</a></li>
+							<li><a href="#">Schedule</a></li>
+						</ul>
 
 
-					<ul id="nav-mobile" class="side-nav">
-						<li><a href="#">Contacts</a></li>
-					</ul>
+						<ul id="nav-mobile" class="side-nav">
+							<li><a href="#">Contacts</a></li>
+						</ul>
+						
+						<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+					</div>
 					
-					<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 				</div>
-				
 			</div>
-		</div>
-		
-	</nav>
+			
+		</nav>
 
-	<div class="container">
-		<center>
-			<h3 id="nome_polo"></h3>
-		</center>
-		
-		<div id="table_div">
-				<table class="striped" id="command_table">
+		<div class="container">
+			<center>
+				<h3 id="nome_polo"></h3>
+			</center>
+			
+			<div id="table_div">
+				<table class="striped">
 					<thead>
 						<tr>
 							<th>Aula</th>
@@ -86,16 +103,12 @@
 						</tr>
 					</thead>
 
-					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
+					<tbody id="command_table">
 					</tbody>
 				</table>
 			</div>
+		</div>
 	</div>
-
 	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px;">
 		<div class="container">
 			<div class="row">
@@ -103,29 +116,21 @@
 					<h5 class="white-text">Company Bio</h5>
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
 				</div>
-				<div class="col l3 s12">
-					<h5 class="white-text">Settings</h5>
-					<ul>
-						<li><a class="white-text" href="#!">Link 1</a></li>
-						<li><a class="white-text" href="#!">Link 2</a></li>
-					</ul>
-				</div>
-				<div class="col l3 s12">
+					
+				<div class="col l3 s12 offset-l3">
 					<h5 class="white-text">Connect</h5>
 					<ul>
-						<li><a class="white-text" href="#!">Link 1</a></li>
-						<li><a class="white-text" href="#!">Link 2</a></li>
+						<li><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-github"></i>Github</h6></li>
+						<li><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-facebook-square"></i>Facebook</h6></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</footer>
-
-
+	
 	<script type="text/javascript">
 		var polo = getQueryVariable("q");
 		document.getElementById("nome_polo").innerHTML = "Aule libere presso: "+polo;
 	</script>
-
 </body>
 </html>

@@ -9,13 +9,14 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- BOOTSTRAP 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
-<body>
+<main>
+	<div class="porcodio" style="margin-bottom: 150px">
 	<nav class="light-blue lighten-1" role="navigation">
 		<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">UNIROOM</a>
 			<ul class="right hide-on-med-and-down">
@@ -33,7 +34,7 @@
 			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 		</div>
 	</nav>
-	<div class="section no-pad-bot" id="index-banner" style="padding-bottom: 150px;">
+	<div class="section no-pad-bot" id="index-banner">
 		<div class="container">
 			<br><br>
 			<div style="padding-top: 10%">
@@ -93,7 +94,7 @@
 		</div>
 	</div>
 
-	
+	</div>
 
 	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px;">
 		<div class="container">
@@ -102,56 +103,24 @@
 					<h5 class="white-text">Company Bio</h5>
 					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
 				</div>
-				<div class="col l3 s12">
-					<h5 class="white-text">Settings</h5>
-					<ul>
-						<li><a class="white-text" href="#!">Link 1</a></li>
-						<li><a class="white-text" href="#!">Link 2</a></li>
-					</ul>
-				</div>
-				<div class="col l3 s12">
+					
+				<div class="col l3 s12 offset-l3">
 					<h5 class="white-text">Connect</h5>
 					<ul>
-						<li><a class="white-text" href="#!">Link 1</a></li>
-						<li><a class="white-text" href="#!">Link 2</a></li>
+						<li><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-github"></i>Github</h6></li>
+						<li><h6 style="padding-bottom: 1%"><i style="font-size:24px; color: black; padding-right: 2%" class="fa fa-facebook-square"></i>Facebook</h6></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</footer>
-
+	
 
 	<!--  Scripts-->
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
-	<script type="text/javascript">
-		function showCommand(){
-			console.log("ciaooo");
-			var table = document.getElementById("table_div");
-			table.value = '';
-			table.style.visibility = "visible";
+	<script type="text/javascript" src="js/myjs.js"></script>
 
-		}
-		function go(){
-			var q = document.getElementById("inserisci").value;
-			console.log(q);
-			if (q === "help")
-			{
-				showCommand();
-			}
-			else
-			{
-				//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
-				var url = "result.html?q="+q;
-				location.href = url;
-			}
-
-			
-
-
-		}
-	</script>
-
-</body>
+</main>
 </html>
