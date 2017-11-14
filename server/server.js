@@ -5,22 +5,23 @@ var cors = require('cors');
 
 var port = process.env.PORT || 8080;
 var department_id =[("economia","E0101"),
-                    ("lettere","E0801"),
-                    ("filosofia","E0801"),
-                    ("mesiano","E0301"),
-                    ("ingegneria","E0301"),
-                    ("giurisprudenza","E0201"),
-                    ("sociologia","E0601"),
-                    ("scienze cognitive","E0705"),
-                    ("povo","E0503")];
+					("lettere","E0801"),
+					("filosofia","E0801"),
+					("mesiano","E0301"),
+					("ingegneria","E0301"),
+					("giurisprudenza","E0201"),
+					("sociologia","E0601"),
+					("scienze cognitive","E0705"),
+					("povo","E0503")];
 
 function inArray(sede){
-    for (let i = 0; i < department_id.length; i++)
-    {
-        if(sede === department_id[i])
-            return true;
-    }
-    return false;
+	console.log("sede: "+sede);
+	for (let i = 0;  i < department_id.length; i++)
+	{
+		if(sede === department_id[i])
+			return true;
+	}
+	return false;
 }
 
 
@@ -28,204 +29,204 @@ const app = express();
 app.use(cors());
 
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname+'/../client/index.html'));
+	res.sendFile(path.join(__dirname+'/../client/index.html'));
 });
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
 app.get('/:sede', (req,res) => {
-    let url;
-    let sede;
-    if (inArray(req.params.sede))
-    {
-        sede = req.params.sede;
-        if (req.query.day&&req.query.month)     //se nella request ci sono i parametri day,month,year
-        {
-            let day = req.query.day;
-            let month = req.query.month;
-            let year = req.query.year;
-            url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-        }
-        else        //se nella request non ci sono i parametri day,month,year significa "in questo momento"
-        {
-            let now = new Date();
-            let day = now.getDate();
-            let month = now.getMonth() + 1;
-            let year = now.getFullYear();
-            url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
-        }
+	let url;
+	let sede;
+	if (inArray(req.params.sede))
+	{
+		sede = req.params.sede;
+		if (req.query.day&&req.query.month)     //se nella request ci sono i parametri day,month,year
+		{
+			let day = req.query.day;
+			let month = req.query.month;
+			let year = req.query.year;
+			url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+		}
+		else        //se nella request non ci sono i parametri day,month,year significa "in questo momento"
+		{
+			let now = new Date();
+			let day = now.getDate();
+			let month = now.getMonth() + 1;
+			let year = now.getFullYear();
+			url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede="+ sede +"&_lang=it&date=" + day + "-" + month + "-" + year;
+		}
 
-        let now = new Date();
-        let currentTimestamp = now.getTime() / 1000;
-        
-        request(url, function(error, response, body) {
-            if(!error && response.statusCode == 200) {
-                let data = JSON.parse(body);
-                let events = data.events;
-                let rooms = getRoomList(events); 
-                rooms = cleanSchedule(rooms);    
-                rooms = getFreeRooms(rooms, currentTimestamp);
-                rooms = cleanPastSchedule(rooms, currentTimestamp);
-                res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
-            }
-        });
-    }
-    else
-    {
-        console.log("Error: invalid department id")
-        //error page -> sede not valid
-    }  
-    
-    
+		let now = new Date();
+		let currentTimestamp = now.getTime() / 1000;
+		
+		request(url, function(error, response, body) {
+			if(!error && response.statusCode == 200) {
+				let data = JSON.parse(body);
+				let events = data.events;
+				let rooms = getRoomList(events); 
+				rooms = cleanSchedule(rooms);    
+				rooms = getFreeRooms(rooms, currentTimestamp);
+				rooms = cleanPastSchedule(rooms, currentTimestamp);
+				res.json(rooms); //Get the list of rooms with events that day and the hours in which they are busy.
+			}
+		});
+	}
+	else
+	{
+		console.log("Error: invalid department id")
+		//error page -> sede not valid
+	}  
+	
+	
 });
 
 
 function getRoomList(events) {
-    let rooms = [];
-    for(let i = 0; i < events.length; i++) {
-        let room = {room: events[i].room,
-                    NomeAula: events[i].NomeAula,
-                    orario: [{
-                        from: events[i].from,
-                        to: events[i].to,
-                        timestamp_day: events[i].timestamp_day,
-                        timestamp_from: events[i].timestamp_from,
-                        timestamp_to: events[i].timestamp_to
-                    }]
-                    };
-        let id = -1;
-        for(let j = 0; j < rooms.length; j++) {
-            if(rooms[j].room === room.room) {
-                id = j;
-            }
-        }  
-        
-        if(id >= 0) {
-            let newOrario = {
-                from: events[i].from,
-                to: events[i].to,
-                timestamp_day: events[i].timestamp_day,
-                timestamp_from: events[i].timestamp_from,
-                timestamp_to: events[i].timestamp_to
-            };
-            rooms[id].orario.push(newOrario);
-            id = -1;
-        } else {
-            rooms.push(room); 
-        } 
-                                       
-    }
-    return rooms;
+	let rooms = [];
+	for(let i = 0; i < events.length; i++) {
+		let room = {room: events[i].room,
+					NomeAula: events[i].NomeAula,
+					orario: [{
+						from: events[i].from,
+						to: events[i].to,
+						timestamp_day: events[i].timestamp_day,
+						timestamp_from: events[i].timestamp_from,
+						timestamp_to: events[i].timestamp_to
+					}]
+					};
+		let id = -1;
+		for(let j = 0; j < rooms.length; j++) {
+			if(rooms[j].room === room.room) {
+				id = j;
+			}
+		}  
+		
+		if(id >= 0) {
+			let newOrario = {
+				from: events[i].from,
+				to: events[i].to,
+				timestamp_day: events[i].timestamp_day,
+				timestamp_from: events[i].timestamp_from,
+				timestamp_to: events[i].timestamp_to
+			};
+			rooms[id].orario.push(newOrario);
+			id = -1;
+		} else {
+			rooms.push(room); 
+		} 
+									   
+	}
+	return rooms;
 }
 
 function cleanSchedule(rooms) {
-    for(let i = 0; i < rooms.length; i++) {
-        for(let j = 0; j < rooms[i].orario.length - 1; j++) {
-            if(rooms[i].orario[j].timestamp_to === rooms[i].orario[j + 1].timestamp_from) {
-                    rooms[i].orario[j].to = rooms[i].orario[j + 1].to;
-                    rooms[i].orario[j].timestamp_to = rooms[i].orario[j + 1].timestamp_to;
-                    rooms[i].orario.splice(j + 1, 1);
-                    j--;
-                }
-        }
-    }
-    return rooms;
+	for(let i = 0; i < rooms.length; i++) {
+		for(let j = 0; j < rooms[i].orario.length - 1; j++) {
+			if(rooms[i].orario[j].timestamp_to === rooms[i].orario[j + 1].timestamp_from) {
+					rooms[i].orario[j].to = rooms[i].orario[j + 1].to;
+					rooms[i].orario[j].timestamp_to = rooms[i].orario[j + 1].timestamp_to;
+					rooms[i].orario.splice(j + 1, 1);
+					j--;
+				}
+		}
+	}
+	return rooms;
 }
 
 function getFreeRooms(rooms, timeStamp) {
-    //let closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000;
-    //console.log("getFreeRooms rooms.length: "+rooms.length);
-    let closeTimeStamp;
-    if(rooms.length > 0) {
-        closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
-    } 
-    //console.log("closetimestamp: "+closeTimeStamp);
-    for(let i = 0; i < rooms.length; i++) {
-        //Check if the current time is between 00:00 and 20:00
-        if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {      
-            for(let j = 0; j < rooms[i].orario.length; j++) {
-                if(rooms[i].orario[j].timestamp_from < timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
-                    rooms.splice(i, 1);
-                    i--;
-                    break;
-                }
-            }
-        }
-    }
-    return rooms;
+	//let closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000;
+	//console.log("getFreeRooms rooms.length: "+rooms.length);
+	let closeTimeStamp;
+	if(rooms.length > 0) {
+		closeTimeStamp = rooms[0].orario[0].timestamp_day + 72000; // Time 20:00
+	} 
+	//console.log("closetimestamp: "+closeTimeStamp);
+	for(let i = 0; i < rooms.length; i++) {
+		//Check if the current time is between 00:00 and 20:00
+		if(timeStamp > rooms[i].orario[0].timestamp_day && timeStamp < closeTimeStamp) {      
+			for(let j = 0; j < rooms[i].orario.length; j++) {
+				if(rooms[i].orario[j].timestamp_from < timeStamp && rooms[i].orario[j].timestamp_to > timeStamp) {
+					rooms.splice(i, 1);
+					i--;
+					break;
+				}
+			}
+		}
+	}
+	return rooms;
 }
 
 //Delete those schedules that are in the past.
 function cleanPastSchedule(rooms, timestamp) {
-    for(let i = 0; i < rooms.length; i++) {
-        for(let j = 0; j < rooms[i].orario.length; j++) {            
-            if(timestamp > rooms[i].orario[j].timestamp_from) {
-                rooms[i].orario.splice(j,1);
-                j --; 
-            }   
-        }   
-    }
-    return rooms;
+	for(let i = 0; i < rooms.length; i++) {
+		for(let j = 0; j < rooms[i].orario.length; j++) {            
+			if(timestamp > rooms[i].orario[j].timestamp_from) {
+				rooms[i].orario.splice(j,1);
+				j --; 
+			}   
+		}   
+	}
+	return rooms;
 }
 
 
 app.get('/schedule/*/*', (req, res) => {
-    let now = new Date();
-    let day = now.getDate();
-    let month = now.getMonth() + 1;
-    let year = now.getFullYear();
+	let now = new Date();
+	let day = now.getDate();
+	let month = now.getMonth() + 1;
+	let year = now.getFullYear();
 
-    let originalUrl = req.originalUrl;
-    let arrayUrl = originalUrl.split('/');
-    let sede = arrayUrl[2];
-    let roomId = arrayUrl[3];
+	let originalUrl = req.originalUrl;
+	let arrayUrl = originalUrl.split('/');
+	let sede = arrayUrl[2];
+	let roomId = arrayUrl[3];
 
-    let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
-    //let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=8-11-2017";
-    request(url, function(error, response, body) {
-        if(!error && response.statusCode == 200) {
-            let data = JSON.parse(body);
-            let events = data.events;
-            let room = getRoomSchedule(events, roomId);
-            
-            res.json(room); //Get the list of rooms with events that day and the hours in which they are busy.
-        }
-    });
+	let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=" + day + "-" + month + "-" + year;
+	//let url = "https://easyroom.unitn.it/Orario/rooms_call.php?form-type=rooms&sede=" + sede + "&_lang=it&date=8-11-2017";
+	request(url, function(error, response, body) {
+		if(!error && response.statusCode == 200) {
+			let data = JSON.parse(body);
+			let events = data.events;
+			let room = getRoomSchedule(events, roomId);
+			
+			res.json(room); //Get the list of rooms with events that day and the hours in which they are busy.
+		}
+	});
 });
 
 
 function getRoomSchedule(events, roomId) {
-    let ris;    
-    for(let i = 0; i < events.length; i++) {
-        if(events[i].room == roomId) {
-            if(ris == null) {
-                ris = { room: events[i].room,
-                        NomeAula: events[i].NomeAula,            
-                        orario: [{
-                            nomeMateria : events[i].name,
-                            nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
-                            from: events[i].from,
-                            to: events[i].to,
-                            timestamp_day: events[i].timestamp_day,
-                            timestamp_from: events[i].timestamp_from,
-                            timestamp_to: events[i].timestamp_to
-                        }]
-                    };
-            } else {
-                let newOrario = {
-                    nomeMateria : events[i].name,
-                    nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
-                    from: events[i].from,
-                    to: events[i].to,
-                    timestamp_day: events[i].timestamp_day,
-                    timestamp_from: events[i].timestamp_from,
-                    timestamp_to: events[i].timestamp_to
-                };
-                ris.orario.push(newOrario);
-            }
-        }
-    }
+	let ris;    
+	for(let i = 0; i < events.length; i++) {
+		if(events[i].room == roomId) {
+			if(ris == null) {
+				ris = { room: events[i].room,
+						NomeAula: events[i].NomeAula,            
+						orario: [{
+							nomeMateria : events[i].name,
+							nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
+							from: events[i].from,
+							to: events[i].to,
+							timestamp_day: events[i].timestamp_day,
+							timestamp_from: events[i].timestamp_from,
+							timestamp_to: events[i].timestamp_to
+						}]
+					};
+			} else {
+				let newOrario = {
+					nomeMateria : events[i].name,
+					nomeProf : events[i].Utenti[0].Nome + " " + events[i].Utenti[0].Cognome,
+					from: events[i].from,
+					to: events[i].to,
+					timestamp_day: events[i].timestamp_day,
+					timestamp_from: events[i].timestamp_from,
+					timestamp_to: events[i].timestamp_to
+				};
+				ris.orario.push(newOrario);
+			}
+		}
+	}
 
-    return ris == null ? "Nessuna lezione oggi in questa aula" : ris;
+	return ris == null ? "Nessuna lezione oggi in questa aula" : ris;
 }
 
 app.listen(port);
