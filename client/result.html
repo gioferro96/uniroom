@@ -30,8 +30,22 @@
 
 	</script>
 	<script type="text/javascript">
-		//var url = "http://localhost:8080/"+ getPlace();
-		var url = "http://localhost:8080/E0503";
+		var sede = getPlace();
+		switch (sede){
+			case "povo": sede = "E0503"; break;
+			case "economia": sede = "E0101"; break;
+			case "lettere": sede = "E0801"; break;
+			case "filosofia": sede = "E0801"; break;
+			case "mesiano": sede = "E0301"; break;
+			case "ingegneria": sede = "E0301"; break;
+			case "giurisprudenza": sede = "E0201"; break;
+			case "sociologia": sede = "E0601"; break;
+			case "scienze cognitive": sede = "E0705"; break;
+			case "giuri": sede = "E0201"; break;
+
+			case "socio": sede = "E0601"; break;
+		}
+		var url = "http://localhost:8080/"+ sede;
 		$.getJSON(url,function(data){
 			$.each(data, function(key, val){
 				if(val.orario[0])
@@ -52,12 +66,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-	<div style="margin-bottom: 150px">
+	<div style="margin-bottom: 100px">
 		<nav class="light-blue lighten-1" role="navigation">
 			<div class="nav-wrapper container">
 				<div class="row">
 					<div class="col s3">
-						<a id="logo-container" href="#" class="brand-logo">UNIROOM</a>
+						<a id="logo-container" href="index.html" class="brand-logo">UNIROOM</a>
 					</div>
 					<div class="col s4 offset-s3">
 						<form>
