@@ -1,21 +1,22 @@
 {
-  "name": "darkpovogang",
+  "name": "uniroom",
   "version": "1.0.0",
   "description": "![UniRoom](https://github.com/stebranchi/DarkPovoGang/blob/master/Loghi/logo.png)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stebranchi/DarkPovoGang.git"
+    "url": "git+https://github.com/gioferro96/uniroom.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/stebranchi/DarkPovoGang/issues"
+    "url": "https://github.com/gioferro96/uniroom/issues"
   },
-  "homepage": "https://github.com/stebranchi/DarkPovoGang#readme",
+  "homepage": "https://github.com/gioferro96/uniroom#readme",
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.2",
