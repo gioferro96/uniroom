@@ -33,7 +33,7 @@
 
 			case "socio": sede = "E0601"; break;
 		}
-		var url = "http://localhost:8080/"+ sede;
+		var url = "https://uniroom.herokuapp.com/"+ sede;
 		$.getJSON(url,function(data){
 			$.each(data, function(key, val){
 				if(val.orario[0])
