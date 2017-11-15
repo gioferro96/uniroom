@@ -18,7 +18,7 @@ function go(){
 	else
 	{
 		//prima bisogna parsare la q e poi aggiungere il parametro polo/aula all'url
-		var url = "result.html?q="+q;
+		var url = "/client/result.html?q="+q;
 
 		location.href = url;
 	}
