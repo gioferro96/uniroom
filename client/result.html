@@ -19,6 +19,7 @@
 		//script per creare la tabella degli orari
 		var sede = getQueryVariable(window.location.href);
 		sede = sede.replace("%20", " ");
+		sede = sede.toLowerCase();
 		switch (sede){
 			case "povo": sede = "E0503"; break;
 			case "economia": sede = "E0101"; break;
@@ -133,6 +134,7 @@
 		//script per caricare il titolo
 		var polo = getQueryVariable(window.location.href);
 		//polo = polo.replace("%20", " ");
+		polo = polo.toLowerCase();
 		var name = "Aule libere presso: "+polo;
 		document.getElementById("nome_polo").innerHTML = name ;
 			
