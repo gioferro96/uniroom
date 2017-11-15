@@ -34,6 +34,12 @@ app.get('/', function(req, res){
 app.get('/client/:file', function(req, res){
 	res.sendFile(path.join(__dirname+'/client/'+req.params.file));
 });
+app.get('/client/js/:file', function(req, res){
+	res.sendFile(path.join(__dirname+'/client/js/'+req.params.file));
+});
+app.get('/client/css/:file', function(req, res){
+	res.sendFile(path.join(__dirname+'/client/css/'+req.params.file));
+});
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
 app.get('/:sede', (req,res) => {
