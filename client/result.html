@@ -16,17 +16,7 @@
 	<script src="js/materialize.js"></script>
 	<script type="text/javascript" src="js/myjs.js"></script>
 	<script type="text/javascript">
-		function getQueryVariable(variable) {
-			var query = window.location.search.substring(1);
-			var vars = query.split("&");
-			for (var i=0;i<vars.length;i++) {
-				var pair = vars[i].split("=");
-				if (pair[0] == variable) {
-					return pair[1];
-				}
-			} 
-			alert('Query Variable ' + variable + ' not found');
-		}
+		
 
 	</script>
 	<script type="text/javascript">
@@ -52,7 +42,11 @@
 			$.each(data, function(key, val){
 				if(val.orario[0])
 				{
-					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>"+val.orario[0].from+"</td><td>"+val.orario[0].to+"</td></tr>");
+					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>"+val.orario[0].from+"</td></tr>");
+				}
+				else
+				{
+					$("#command_table").append("<tr><td>"+val.NomeAula+"</td><td>ora</td><td>fine giornata</td></tr>");
 				}
 				
 			});
@@ -104,7 +98,7 @@
 			
 		</nav>
 
-		<div class="container">
+		<div class="container" style="padding-bottom: 100px">
 			<center>
 				<h3 id="nome_polo"></h3>
 			</center>
@@ -125,7 +119,7 @@
 			</div>
 		</div>
 	</div>
-	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px;">
+	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px; width: 100%">
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12">
