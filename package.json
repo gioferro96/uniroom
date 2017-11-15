@@ -4,8 +4,8 @@
   "description": "![UniRoom](https://github.com/stebranchi/DarkPovoGang/blob/master/Loghi/logo.png)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    "start": "node server/server.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
