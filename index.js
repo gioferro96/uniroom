@@ -29,7 +29,7 @@ const app = express();
 app.use(cors());
 
 app.get('/', function(req, res){
-	res.sendFile(path.join(__dirname+'client/index.html'));
+	res.sendFile(path.join(__dirname+'/client/index.html'));
 });
 
 //funzione che data sede e giorno restituisce le aule libere quel giorno
