@@ -40,10 +40,11 @@
 				<div style="padding-top: 10%">
 					<center>
 						<div class="row center">
-							<form class="col s12">
+							<form class="col s12" action="result.html" method="GET">
 								<div class="input-field col s10" style="padding-left: 16%; font-size: 30px">
 									<i onclick="go()" class="red-text material-icons prefix" style="padding-top: 3%">search</i>
-									<input size="25" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" class="validate">
+									<input size="25" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" name="q" class="validate">
+									<input type="submit" name="submit" style="visibility: hidden;">
 									<div style="padding-top: 2%">
 										<a class="btn-floating btn-large waves-effect waves-light red" onclick="go()">
 											<i class="material-icons">forward</i>
@@ -96,7 +97,7 @@
 
 	</div>
 
-	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px;">
+	<footer class="page-footer orange">
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12">

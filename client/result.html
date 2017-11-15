@@ -16,13 +16,9 @@
 	<script src="js/materialize.js"></script>
 	<script type="text/javascript" src="js/myjs.js"></script>
 	<script type="text/javascript">
-		
-
-	</script>
-	<script type="text/javascript">
-		var sede = getPlace();
+		//script per creare la tabella degli orari
+		var sede = getQueryVariable(window.location.href);
 		sede = sede.replace("%20", " ");
-		console.log("sede: "+sede);
 		switch (sede){
 			case "povo": sede = "E0503"; break;
 			case "economia": sede = "E0101"; break;
@@ -70,10 +66,11 @@
 						<a id="logo-container" href="index.html" class="brand-logo">UNIROOM</a>
 					</div>
 					<div class="col s4 offset-s3">
-						<form>
-							<div class="input-field">
+						<form action="result.html">
+							<div class="input-field" style="max-height: 50px!important">
 								<i onclick="go()" id="icon" class="red-text material-icons prefix">search</i>
-								<input size="15" style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" type="text" class="validate" onkeydown = "enter()" >
+								<input style="padding-left: 0px;" placeholder="Inserisci polo, aula o help..." id="inserisci" name="q" type="text" class="validate">
+								<input type="submit" name="submit" style="visibility: hidden;">
 							</div>
 						</form>
 					</div>
@@ -84,25 +81,19 @@
 							<li><a href="#">UNITN</a></li>
 							<li><a href="#">Schedule</a></li>
 						</ul>
-
-
 						<ul id="nav-mobile" class="side-nav">
 							<li><a href="#">Contacts</a></li>
 						</ul>
-						
 						<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 					</div>
-					
 				</div>
 			</div>
-			
 		</nav>
 
 		<div class="container" style="padding-bottom: 100px">
 			<center>
 				<h3 id="nome_polo"></h3>
 			</center>
-			
 			<div id="table_div">
 				<table class="striped">
 					<thead>
@@ -119,7 +110,7 @@
 			</div>
 		</div>
 	</div>
-	<footer class="page-footer orange" style="position: fixed;bottom: 0px;max-height: 150px; width: 100%">
+	<footer class="page-footer orange">
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12">
@@ -137,11 +128,15 @@
 			</div>
 		</div>
 	</footer>
-	
 	<script type="text/javascript">
-		var polo = getQueryVariable("q");
-		polo = polo.replace("%20", " ");
-		document.getElementById("nome_polo").innerHTML = "Aule libere presso: "+polo;
+		//script per caricare il titolo
+		var polo = getQueryVariable(window.location.href);
+		//polo = polo.replace("%20", " ");
+		var name = "Aule libere: povo";
+		document.getElementById("nome_polo").innerHTML = name ;
+			
 	</script>
+	
+	
 </body>
 </html>

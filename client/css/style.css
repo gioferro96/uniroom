@@ -22,8 +22,10 @@ main {
 	flex: 1 0 auto;
 }
 
-footer {
-  position:absolute;
-  bottom:0;
-}
+.page-footer{
+	position: fixed;
+	bottom: 0px;
+	max-height: 150px;
+	width: 100%
 
+}
